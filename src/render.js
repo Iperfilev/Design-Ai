@@ -40,12 +40,12 @@ export function pageMarkup(c) {
     <section class="section container" id="skills">
       ${heading('НАВЫКИ И ИНСТРУМЕНТЫ','До конца курса у вас будет. профессиональное резюме')}
       <div class="skills-layout"><div><h3 class="small-heading">Навыки</h3><ul class="skills-list">${c.skills.map(s => `<li>${icon('check-circle')}<span>${e(s)}</span></li>`).join('')}</ul></div>
-        <aside class="tool-panel"><h3 class="small-heading">Инструменты</h3><div class="tool-list">${c.tools.map((t,i) => `<span><span class="tool-index" aria-hidden="true">0${i+1}</span>${e(t)}</span>`).join('')}</div><img class="editorial-detail" src="assets/images/editorial.webp" alt="Композиция из оранжево-чёрного и кремового дизайнерских постеров" width="1600" height="701" loading="lazy"></aside>
+        <aside class="tool-panel"><h3 class="small-heading">Инструменты</h3><div class="tool-list">${c.tools.map((t,i) => `<span><span class="tool-index" aria-hidden="true">${i+1}</span>${e(t)}</span>`).join('')}</div><img class="editorial-detail" src="assets/images/tools-studio.webp" alt="Оранжевая стеклянная звезда, хромированная буква и дизайнерские материалы" width="1000" height="583" loading="lazy"></aside>
       </div>
     </section>
 
     <section class="section container" id="career">${heading('РАЗВИТИЕ','Ваша карьерная траектория')}
-      <div class="career-grid">${c.career.map((x,i) => `<article><span class="eyebrow">0${i+1}</span><h3>${e(x.title)}</h3><p>${e(x.text)}</p><p class="salary">${e(x.salary)}</p></article>`).join('')}</div>
+      <div class="career-scroll" role="region" aria-label="Карьерный рост от Junior до Senior" tabindex="0"><div class="career-stage"><img class="career-growth-line" src="assets/images/career-growth.webp" alt="" aria-hidden="true" width="1440" height="480" loading="lazy"><div class="career-grid">${c.career.map((x,i) => `<article><span class="eyebrow">${i+1}</span><h3>${e(x.title)}</h3><p>${e(x.text)}</p><p class="salary">${e(x.salary)}</p></article>`).join('')}</div></div></div>
     </section>
 
     <section class="section works-section" id="works"><div class="container">

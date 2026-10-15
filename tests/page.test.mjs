@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
 import { pageMarkup } from '../src/render.js';
 import { courseContent as c } from '../src/content.js';
+import { parseHTML } from 'linkedom';
 
 const html = pageMarkup(c);
 test('the complete reading path exists and every in-page link resolves', () => {
@@ -60,4 +61,19 @@ test('requested section cleanup removes section numbers and academy promotion', 
   assert.ok(!html.includes('id="academy"'));
   assert.ok(!html.includes('Почему наши IT курсы самые лучшие?'));
   assert.ok(!/<p class="eyebrow"><span>\d+<\/span>/.test(html));
+});
+
+test('tools use simple numbers and their own new illustration', () => {
+  const {document}=parseHTML(html);
+  assert.deepEqual([...document.querySelectorAll('.tool-index')].map(el=>el.textContent),['1','2','3','4','5','6']);
+  assert.equal(document.querySelector('.editorial-detail').getAttribute('src'),'assets/images/tools-studio.webp');
+  assert.equal(document.querySelector('.editorial-figure img').getAttribute('src'),'assets/images/editorial.webp');
+});
+
+test('career is presented as three ordered growth milestones', () => {
+  const {document}=parseHTML(html);
+  const track=document.querySelector('.career-scroll');
+  assert.ok(track);
+  assert.deepEqual([...track.querySelectorAll('article h3')].map(el=>el.textContent),c.career.map(item=>item.title));
+  assert.ok(track.querySelector('img.career-growth-line[src="assets/images/career-growth.webp"]'));
 });

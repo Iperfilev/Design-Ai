@@ -23,3 +23,31 @@ h1,h2,h3,p,li,a,summary,.module-title{overflow-wrap:anywhere}.benefit-row>div,.r
 .consultation-panel{background:#fff;color:#000}.consultation-panel .eyebrow,.consultation-panel p,.consultation-email,.consultation-email:hover{color:#000}.button-consultation{background:var(--orange-solid);color:#000}.button-consultation:hover{background:#ff946e;color:#000}.button-consultation .icon{filter:none}
 @media(max-width:760px){.audience-grid,.outcomes-grid{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:90%;overflow-x:auto;overscroll-behavior-inline:contain;scroll-snap-type:x mandatory;scroll-padding-inline:0;gap:14px;padding-bottom:0;scrollbar-width:none;-ms-overflow-style:none;align-items:stretch}.audience-grid::-webkit-scrollbar,.outcomes-grid::-webkit-scrollbar{display:none;width:0;height:0}.audience-grid>.audience-card,.outcomes-grid>.outcome{scroll-snap-align:start;min-width:0;height:100%;padding:22px}.audience-card .large-index{font-size:28px;margin-bottom:12px}.audience-card h3{font-size:24px;margin-bottom:16px}.audience-card .text-list li{line-height:1.55}.audience-card .text-list li+li{margin-top:12px}.outcomes-grid .outcome>.icon{width:26px;height:26px;margin-bottom:16px}.outcomes-grid .outcome h3{font-size:23px;margin-bottom:12px;max-width:none}.outcomes-grid .outcome p{line-height:1.55}.outcomes-grid .certificate-link{margin-top:14px}.outcomes-grid .certificate-link>img{height:86px;max-height:86px;object-fit:contain}.outcomes-grid .certificate-link .image-fallback{min-height:56px;padding:12px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
+
+/* Tools and the ascending career journey. */
+.tool-index{flex:0 0 1.3em;min-width:1.3em;white-space:nowrap;font-variant-numeric:tabular-nums}
+.editorial-detail{aspect-ratio:12/7}
+.career-scroll{border-radius:18px}
+.career-stage{position:relative;container-type:inline-size}
+.career-growth-line{position:absolute;inset:0 0 auto;width:100%;height:auto;pointer-events:none}
+.career-stage .career-grid{position:relative;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;border:0;padding-top:8cqw;align-items:start}
+.career-stage .career-grid article{min-width:0;min-height:290px;padding:28px;border:1px solid var(--line);border-radius:18px;background:var(--panel,#222220)}
+.career-stage .career-grid article:first-child{margin-top:18cqw}
+.career-stage .career-grid article:nth-child(2){margin-top:9cqw}
+.career-stage .career-grid h3{font-size:clamp(21px,2.2vw,30px)}
+.career-stage .career-grid .eyebrow{margin-bottom:18px}
+@media(max-width:700px){
+ .career-scroll{overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain}
+ .career-scroll::-webkit-scrollbar{display:none}
+ .career-stage{width:calc(270% + 28px)}
+ .career-stage .career-grid{gap:14px;padding-top:8cqw}
+ .career-stage .career-grid article{scroll-snap-align:start;padding:24px;min-height:286px}
+ .career-stage .career-grid h3{font-size:24px}
+ .career-stage .career-grid .salary{font-size:32px}
+}
+@media(max-width:700px){
+ .career-stage .career-growth-line{height:16.6667cqw}
+ .career-stage .career-grid{padding-top:4cqw}
+ .career-stage .career-grid article:first-child{margin-top:9cqw}
+ .career-stage .career-grid article:nth-child(2){margin-top:4.5cqw}
+}
