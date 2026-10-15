@@ -12,6 +12,7 @@ test('the complete reading path exists and every in-page link resolves', () => {
   for (const [, id] of html.matchAll(/href="#([^"]+)"/g)) assert.ok(ids.includes(id), `missing anchor ${id}`);
   assert.equal((html.match(/<h1\b/g) ?? []).length, 1);
   assert.ok(html.indexOf('step-white.svg') < html.indexOf('astana-hub-white.svg'));
+  assert.ok(html.replace(/<[^>]+>/g, '').includes('онлайн-курс. из графического дизайна?'), 'heading words retain their source spacing');
 });
 
 test('all approved text is rendered, including hidden native disclosures', () => {
@@ -30,7 +31,7 @@ test('all approved text is rendered, including hidden native disclosures', () =>
   assert.equal((html.match(/data-faq=/g) ?? []).length, 3);
 });
 
-test('source URLs and original student images remain accessible', () => {
+test('source links and student images retain their exact destinations', () => {
   assert.ok(html.includes(`href="${c.source}"`), 'course source link must not invent an anchor');
   for (const item of [...c.links.academy,...c.links.courses,c.links.offer,c.links.privacy,...c.contacts.phones]) assert.ok(html.includes(item.href.replaceAll('&','&amp;')));
   for (const work of c.studentWorks) {

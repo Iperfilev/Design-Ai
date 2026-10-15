@@ -28,7 +28,7 @@ export function pageMarkup(c) {
     <div class="container hero-highlights" aria-label="Результаты курса">${c.outcomes.map((x,i) => `<div>${icon(['certificate','stack','cube'][i])}<span>${e(x.title)}</span></div>`).join('')}</div>
 
     <section class="section container" id="about" aria-labelledby="about-title">
-      <div class="section-heading"><p class="eyebrow"><span>01</span>ДЛЯ КОГО</p><h2 id="about-title">Кому подойдет онлайн-курс.<br>из графического дизайна?</h2></div>
+      <div class="section-heading"><p class="eyebrow"><span>01</span>ДЛЯ КОГО</p><h2 id="about-title">Кому подойдет онлайн-курс. <br>из графического дизайна?</h2></div>
       <div class="audience-grid">${c.audiences.map((a,i) => `<article class="audience-card"><span class="large-index" aria-hidden="true">0${i+1}</span><h3>${e(a.title)}</h3>${list(a.items)}</article>`).join('')}</div>
     </section>
 

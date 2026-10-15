@@ -1,4 +1,4 @@
-import { mkdir, readFile, writeFile, cp, rm } from 'node:fs/promises';
+import { mkdir, readFile, writeFile, cp } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { courseContent } from '../src/content.js';
