@@ -21,8 +21,12 @@ try {
     await page.setViewportSize({width,height:844});
     for(const selector of ['.audience-grid','.outcomes-grid']) {
       const carousel=page.locator(selector);
-      const before=await carousel.evaluate(el=>({width:el.clientWidth,content:el.scrollWidth}));
+      const before=await carousel.evaluate(el=>({width:el.clientWidth,content:el.scrollWidth,scrollbar:getComputedStyle(el).scrollbarWidth,cards:[...el.children].map(card=>({width:card.getBoundingClientRect().width,height:card.getBoundingClientRect().height}))}));
       if(before.content<=before.width) failures.push(`${selector} does not overflow horizontally at ${width}`);
+      if(before.scrollbar!=='none') failures.push(`${selector} must hide its scrollbar at ${width}`);
+      if(before.cards[0].width<before.width*.89 || before.cards[0].width>=before.width-14) failures.push(`${selector} needs wider cards with the next card peeking at ${width}`);
+      if(!before.cards.every(card=>Math.abs(card.height-before.cards[0].height)<1)) failures.push(`${selector} needs equal card heights at ${width}`);
+      if(width===390 && before.cards[0].height>440) failures.push(`${selector} is still too tall: ${before.cards[0].height}px`);
       await carousel.evaluate(el=>el.scrollTo({left:el.clientWidth,behavior:'instant'}));
       const moved=await carousel.evaluate(el=>el.scrollLeft>0);
       if(!moved) failures.push(`${selector} cannot scroll sideways at ${width}`);
