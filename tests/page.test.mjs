@@ -8,7 +8,7 @@ const html = pageMarkup(c);
 test('the complete reading path exists and every in-page link resolves', () => {
   const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(m => m[1]);
   assert.equal(new Set(ids).size, ids.length, 'unique IDs');
-  for (const id of ['about','skills','works','program','results','academy','faq','consultation','contacts']) assert.ok(ids.includes(id), id);
+  for (const id of ['about','skills','works','program','results','faq','consultation','contacts']) assert.ok(ids.includes(id), id);
   for (const [, id] of html.matchAll(/href="#([^"]+)"/g)) assert.ok(ids.includes(id), `missing anchor ${id}`);
   assert.equal((html.match(/<h1\b/g) ?? []).length, 1);
   assert.ok(html.indexOf('step-white.svg') < html.indexOf('astana-hub-white.svg'));
@@ -22,7 +22,7 @@ test('all approved text is rendered, including hidden native disclosures', () =>
     ...c.professionBenefits.flatMap(x => [x.title,x.text]), ...c.skills,...c.tools,
     ...c.career.flatMap(x => [x.title,x.text,x.salary]),...c.courseBenefits,...c.industries,
     ...c.modules.flatMap(m => [m.title,...m.topics]),
-    ...c.outcomes.flatMap(x => [x.title,x.text]),...c.academy.paragraphs,
+    ...c.outcomes.flatMap(x => [x.title,x.text]),
     ...c.reasonsToStart.flatMap(x => [x.title,x.text]),...c.faq.flatMap(x => [x.question,x.answer]),
     ...c.contacts.addresses,c.contacts.email,c.contacts.hours,c.format
   ];
@@ -54,4 +54,10 @@ test('disclosures and images have accessible native markup', () => {
   assert.ok(html.includes('<details'));
   assert.ok(html.includes('<summary'));
   assert.ok(html.includes('aria-controls="mobile-nav"'));
+});
+
+test('requested section cleanup removes section numbers and academy promotion', () => {
+  assert.ok(!html.includes('id="academy"'));
+  assert.ok(!html.includes('Почему наши IT курсы самые лучшие?'));
+  assert.ok(!/<p class="eyebrow"><span>\d+<\/span>/.test(html));
 });
