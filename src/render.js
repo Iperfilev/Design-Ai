@@ -12,7 +12,7 @@ export function pageMarkup(c) {
   return `<a class="skip-link" href="#main-content">Перейти к содержанию</a>
   <header class="site-header" id="top"><div class="container header-inner">
     ${brand()}<nav class="desktop-nav" aria-label="Основная навигация">${nav()}</nav>
-    <a class="header-phone" href="${e(c.contacts.phones[0].href)}">${icon('phone')}<span>${e(c.contacts.phones[0].label)}</span></a>
+    <a class="header-phone" href="${e(c.contacts.phones[0].href)}" aria-label="Позвонить ${e(c.contacts.phones[0].label)}">${icon('phone')}<span>${e(c.contacts.phones[0].label)}</span></a>
     <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Открыть меню" hidden>${icon('list')}</button>
   </div><nav id="mobile-nav" class="mobile-nav container" aria-label="Мобильная навигация" hidden>${nav()}<a href="#consultation">${e(c.consultationLabel)}</a></nav></header>
   <main id="main-content">
