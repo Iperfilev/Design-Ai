@@ -63,11 +63,15 @@ test('requested section cleanup removes section numbers and academy promotion', 
   assert.ok(!/<p class="eyebrow"><span>\d+<\/span>/.test(html));
 });
 
-test('tools use simple numbers and their own new illustration', () => {
+test('tools use an initially collapsed native disclosure without numbering', () => {
   const {document}=parseHTML(html);
-  assert.deepEqual([...document.querySelectorAll('.tool-index')].map(el=>el.textContent),['1','2','3','4','5','6']);
+  assert.equal(document.querySelectorAll('.tool-index').length,0);
+  const panel=document.querySelector('details.tool-panel');
+  assert.ok(panel&&!panel.hasAttribute('open'));
+  assert.ok(panel.querySelector('summary .tool-toggle'));
+  assert.deepEqual([...panel.querySelectorAll('.tool-list>span')].map(el=>el.textContent),c.tools);
   assert.equal(document.querySelector('.editorial-detail').getAttribute('src'),'assets/images/tools-studio.webp');
-  assert.equal(document.querySelector('.editorial-figure img').getAttribute('src'),'assets/images/editorial.webp');
+  assert.equal(document.querySelector('.editorial-figure img').getAttribute('src'),'assets/images/learning-studio.webp');
 });
 
 test('career is presented as three ordered growth milestones', () => {
@@ -76,4 +80,17 @@ test('career is presented as three ordered growth milestones', () => {
   assert.ok(track);
   assert.deepEqual([...track.querySelectorAll('article h3')].map(el=>el.textContent),c.career.map(item=>item.title));
   assert.ok(track.querySelector('img.career-growth-line[src="assets/images/career-growth.webp"]'));
+});
+
+test('reason carousel uses thematic images above preserved text and modules only have one label',()=>{
+ const {document}=parseHTML(html);
+ const cards=[...document.querySelectorAll('.reasons-list article')];
+ assert.equal(cards.length,c.reasonsToStart.length);
+ cards.forEach((card,i)=>{
+  assert.equal(card.firstElementChild.tagName,'IMG');
+  assert.equal(card.querySelector('h3').textContent,c.reasonsToStart[i].title);
+  assert.equal(card.querySelector('.row-number'),null);
+ });
+ assert.equal(document.querySelectorAll('.module-number').length,0);
+ assert.deepEqual([...document.querySelectorAll('.module-prefix')].map(el=>el.textContent),c.modules.map((_,i)=>`Модуль ${i+1}`));
 });

@@ -40,7 +40,7 @@ export function pageMarkup(c) {
     <section class="section container" id="skills">
       ${heading('НАВЫКИ И ИНСТРУМЕНТЫ','До конца курса у вас будет. профессиональное резюме')}
       <div class="skills-layout"><div><h3 class="small-heading">Навыки</h3><ul class="skills-list">${c.skills.map(s => `<li>${icon('check-circle')}<span>${e(s)}</span></li>`).join('')}</ul></div>
-        <aside class="tool-panel"><h3 class="small-heading">Инструменты</h3><div class="tool-list">${c.tools.map((t,i) => `<span><span class="tool-index" aria-hidden="true">${i+1}</span>${e(t)}</span>`).join('')}</div><img class="editorial-detail" src="assets/images/tools-studio.webp" alt="Оранжевая стеклянная звезда, хромированная буква и дизайнерские материалы" width="1000" height="583" loading="lazy"></aside>
+        <details class="tool-panel"><summary class="tool-summary"><h3 class="small-heading">Инструменты</h3><span class="tool-toggle" aria-hidden="true">${icon('plus')}</span></summary><div class="tool-body"><div class="tool-list">${c.tools.map(t => `<span>${e(t)}</span>`).join('')}</div><img class="editorial-detail" src="assets/images/tools-studio.webp" alt="Оранжевая стеклянная звезда, хромированная буква и дизайнерские материалы" width="1000" height="583" loading="lazy"></div></details>
       </div>
     </section>
 
@@ -56,7 +56,7 @@ export function pageMarkup(c) {
 
     <section class="section container" id="benefits">${heading('ПОДХОД К ОБУЧЕНИЮ','Почему следует выбрать курс')}
       <div class="course-benefits">${c.courseBenefits.map((text,i) => `<article>${icon(['cube','stack','certificate'][i])}<h3>${e(text)}</h3></article>`).join('')}</div>
-      <figure class="editorial-figure"><img src="assets/images/editorial.webp" alt="Декоративные дизайнерские постеры в оранжевой, чёрной и кремовой палитре" width="1600" height="701" loading="lazy"></figure>
+      <figure class="editorial-figure"><img src="assets/images/learning-studio.webp" alt="Творческая студия: работа над дизайном на ноутбуке, мокап упаковки и экспериментальная стеклянная форма" width="1400" height="613" loading="lazy"></figure>
       <h3 class="industry-title">Востребованность в разных сферах</h3><ul class="industry-list">${c.industries.map(x => `<li>${e(x)}</li>`).join('')}</ul>
     </section>
 
@@ -64,7 +64,7 @@ export function pageMarkup(c) {
       <div class="program-header">${heading('ПРОГРАММА','Что вы будете учить на курсе Графический дизайн +')}
         <div class="program-meta"><strong>${c.durationMonths}<span>месяцев</span></strong><p>${e(c.format)}</p></div></div>
       <p class="programme-intro">${e(c.programmeIntroduction)}</p>
-      <div class="module-list">${c.modules.map((m,i) => `<details class="module" data-module="${i+1}"${i===0?' open':''}><summary><span class="module-number">0${i+1}</span><span class="module-title"><span class="module-prefix">Модуль ${i+1}</span>${e(m.title)}</span><span class="topic-count">${m.topics.length} ${i===2?'темы':i===3||i===4?'тем':'темы'}</span>${icon('plus')}</summary><div class="module-content">${list(m.topics)}</div></details>`).join('')}</div>
+      <div class="module-list">${c.modules.map((m,i) => `<details class="module" data-module="${i+1}"${i===0?' open':''}><summary><span class="module-title"><span class="module-prefix">Модуль ${i+1}</span>${e(m.title)}</span><span class="topic-count">${m.topics.length} ${i===2?'темы':i===3||i===4?'тем':'темы'}</span>${icon('plus')}</summary><div class="module-content">${list(m.topics)}</div></details>`).join('')}</div>
       <button class="button button-outline show-modules" type="button" aria-controls="program" hidden>Показать еще${icon('plus')}</button>
     </div></section>
 
@@ -73,7 +73,7 @@ export function pageMarkup(c) {
     </section>
 
     <section class="section container" id="start">${heading('СЛЕДУЮЩИЙ ШАГ','Почему стоит записаться на курс сейчас?')}
-      <div class="reasons-list">${c.reasonsToStart.map((r,i)=>`<article><span class="row-number">0${i+1}</span><div><h3>${e(r.title)}</h3><p>${e(r.text)}</p></div></article>`).join('')}</div>
+      <div class="reasons-list" role="region" aria-label="Почему стоит записаться — карточки" tabindex="0">${c.reasonsToStart.map((r,i)=>`<article><img class="reason-image" src="assets/images/reason-${['design','ai','portfolio','mentor','group'][i]}.webp" alt="${['Мокап айдентики с растровой и векторной графикой','Превращение цифрового эскиза в объёмный AI-визуал','Презентация дизайнерского портфолио','Рабочее место для онлайн-обучения с ментором','Совместная работа учебной группы над дизайном'][i]}" width="900" height="600" loading="lazy"><div><h3>${e(r.title)}</h3><p>${e(r.text)}</p></div></article>`).join('')}</div>
     </section>
 
     <section class="section container faq-section" id="faq">${heading('АКТУАЛЬНЫЕ ВОПРОСЫ','Часто задаваемые вопросы')}

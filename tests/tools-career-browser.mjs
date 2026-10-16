@@ -17,8 +17,8 @@ try{
   assert.ok(state.cards[0].top>state.cards[1].top&&state.cards[1].top>state.cards[2].top,'career steps ascend');
   assert.equal(state.body,width,'no page overflow');
   assert.ok(state.image>0,'growth artwork loaded');
-  assert.deepEqual(state.indices.map(x=>x.text),['1','2','3','4','5','6']);
-  for(const n of state.indices) assert.ok(n.height<=n.line+1,'number stays on one line');
+  assert.equal(state.indices.length,0);
+  
   if(width<700){
    assert.ok(state.scrollWidth>state.width);
    assert.ok(state.cards[0].width<state.width-10&&state.cards[0].width>state.width*.88);
@@ -27,7 +27,36 @@ try{
    await page.locator('.career-scroll').evaluate(el=>el.scrollTo({left:0,behavior:'instant'}));
   }
   await page.locator('#career').screenshot({path:`work/browser-qa/career-${width}.png`});
-  if(width===390) await page.locator('.tool-panel').screenshot({path:'work/browser-qa/tools-new.png'});
+  const tools=page.locator('.tool-panel');
+  assert.equal(await tools.evaluate(el=>el.open),false);
+  assert.equal(await tools.locator('.tool-list').isVisible(),false);
+  if(width===390) await tools.screenshot({path:'work/browser-qa/tools-collapsed.png'});
+  await tools.locator('summary').focus();
+  await page.keyboard.press('Enter');
+  assert.equal(await tools.evaluate(el=>el.open),true);
+  await page.waitForFunction(()=>document.querySelector('.editorial-detail').naturalWidth>0);
+  assert.deepEqual(await tools.locator('.tool-list>span').allTextContents(),['Adobe Photoshop','Behance','Adobe Illustrator','Canva','Figma','ChatGPT']);
+  assert.equal(await tools.locator('.tool-list>span').evaluateAll(els=>els.every(el=>el.scrollWidth<=el.clientWidth)),true);
+  if(width===390) await tools.screenshot({path:'work/browser-qa/tools-new.png'});
+  await tools.locator('summary').click();
+  assert.equal(await tools.evaluate(el=>el.open),false);
+  const reasons=page.locator('.reasons-list');
+  await reasons.scrollIntoViewIfNeeded();
+  await page.waitForFunction(()=>document.querySelector('.reason-image').naturalWidth>0);
+  assert.equal(await reasons.locator('article').count(),5);
+  assert.ok(await reasons.evaluate(el=>el.scrollWidth>el.clientWidth));
+  await reasons.evaluate(el=>el.scrollTo({left:el.clientWidth,behavior:'instant'}));
+  assert.ok(await reasons.evaluate(el=>el.scrollLeft>0));
+  await reasons.evaluate(el=>el.scrollTo({left:0,behavior:'instant'}));
+  await page.locator('#start').screenshot({path:`work/browser-qa/reasons-${width}.png`});
+  assert.equal(await page.locator('.module-number').count(),0);
+  if(width===390) await page.locator('[data-module="1"]').screenshot({path:'work/browser-qa/module-new.png'});
+  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth),width);
+  if(width===390){
+   await page.locator('#benefits').scrollIntoViewIfNeeded();
+   await page.waitForFunction(()=>document.querySelector('.editorial-figure img').naturalWidth>0);
+   await page.locator('#benefits').screenshot({path:'work/browser-qa/benefits-new.png'});
+  }
  }
- console.log('Tools numbering and career growth: 360/390/1440 passed.');
+ console.log('Tools disclosure, reason carousel, programme labels and career growth: 360/390/1440 passed.');
 }finally{await browser.close()}
