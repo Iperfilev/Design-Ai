@@ -18,7 +18,7 @@ try{
   assert.equal(state.body,width,'no page overflow');
   assert.ok(state.image>0,'growth artwork loaded');
   assert.equal(state.indices.length,0);
-  
+
   if(width<700){
    assert.ok(state.scrollWidth>state.width);
    assert.ok(state.cards[0].width<state.width-10&&state.cards[0].width>state.width*.88);
