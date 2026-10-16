@@ -38,7 +38,6 @@ export function initCourseInteractions(root = document) {
     show.addEventListener('click', () => {
       for (const module of additional) module.hidden = false;
       if (additional[0]) {
-        additional[0].open = true;
         additional[0].querySelector('summary')?.focus();
       }
       show.hidden = true;
@@ -61,7 +60,7 @@ export function initCourseInteractions(root = document) {
 
 function initQuickbar(root) {
   const bar = root.querySelector('.mobile-quickbar');
-  const hero = root.querySelector('.hero-cta');
+  const hero = root.querySelector('.hero-consultation');
   const consultation = root.querySelector('#consultation');
   const footer = root.querySelector('.site-footer');
   const view = root.defaultView;

@@ -52,7 +52,8 @@ test('show more reveals the original remaining modules', () => {
   document.querySelector('.show-modules').click();
   assert.equal(modules.filter(m => !m.hidden).length, 5);
   assert.equal(document.querySelector('.show-modules').hidden, true);
-  assert.equal(modules[3].open, true);
+  assert.equal(modules[3].hasAttribute('open'),false);
+  assert.ok(modules.every(m=>!m.hasAttribute('open')));
 });
 
 test('unavailable original images retain a real link instead of invented work', () => {

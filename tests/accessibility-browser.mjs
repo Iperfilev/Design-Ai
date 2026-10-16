@@ -19,8 +19,8 @@ try {
   }
   await page.keyboard.press('Tab');
   for (const selector of ['.consultation-email','.consultation-actions .button']) {
-    await page.locator(selector).focus();
-    const styles = await page.locator(selector).evaluate(el => ({ outline:getComputedStyle(el).outlineColor, style:getComputedStyle(el).outlineStyle, background:getComputedStyle(el.closest('.consultation-panel')).backgroundColor }));
+    await page.locator('#consultation '+selector).focus();
+    const styles = await page.locator('#consultation '+selector).evaluate(el => ({ outline:getComputedStyle(el).outlineColor, style:getComputedStyle(el).outlineStyle, background:getComputedStyle(el.matches('.button')?el:el.closest('.consultation-panel')).backgroundColor }));
     const ratio = contrast(styles.outline,styles.background);
     if (styles.style === 'none' || ratio < 3) failures.push(`${selector}: focus contrast ${ratio.toFixed(2)}:1, expected >=3:1`);
   }

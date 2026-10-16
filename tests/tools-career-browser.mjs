@@ -7,6 +7,13 @@ try{
  await page.goto(process.env.TEST_BASE_URL??'http://127.0.0.1:4173/',{waitUntil:'networkidle'});
  for(const width of [360,390,1440]){
   await page.setViewportSize({width,height:1000});
+  assert.equal(await page.locator('p.eyebrow').count(),0);
+  assert.equal(await page.locator('.hero-visual').isVisible(),width>760);
+  assert.equal(await page.locator('.hero-consultation').isVisible(),true);
+  const panels=await page.locator('.consultation-panel').evaluateAll(els=>els.map(el=>({bg:getComputedStyle(el).backgroundColor,button:getComputedStyle(el.querySelector('.button')).backgroundColor,text:getComputedStyle(el.querySelector('.button')).color})));
+  assert.equal(panels.length,2);
+  panels.forEach(p=>assert.deepEqual(p,{bg:'rgb(248, 117, 70)',button:'rgb(23, 22, 20)',text:'rgb(255, 255, 255)'}));
+  await page.locator('.hero').screenshot({path:`work/browser-qa/hero-revised-${width}.png`});
   await page.locator('#career').scrollIntoViewIfNeeded();
   await page.waitForFunction(()=>document.querySelector('.career-growth-line').naturalWidth>0);
   const state=await page.evaluate(()=>{
@@ -58,5 +65,5 @@ try{
    await page.locator('#benefits').screenshot({path:'work/browser-qa/benefits-new.png'});
   }
  }
- console.log('Tools disclosure, reason carousel, programme labels and career growth: 360/390/1440 passed.');
+ console.log('Hero contacts, closed modules, tools, image carousels and career growth: 360/390/1440 passed.');
 }finally{await browser.close()}

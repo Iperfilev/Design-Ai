@@ -26,7 +26,10 @@ try {
     assert.equal(await page.locator('details[data-module]:visible').count(), 3);
     await page.locator('.show-modules').click();
     assert.equal(await page.locator('details[data-module]:visible').count(), 5);
-    assert.equal(await page.locator('[data-module="4"]').evaluate(el => el.open), true);
+    assert.equal(await page.locator('.module[open]').count(),0);
+    await page.locator('[data-module="1"] summary').click();
+    assert.equal(await page.locator('[data-module="1"]').evaluate(el=>el.open),true);
+    await page.locator('[data-module="1"] summary').click();
     await page.locator('[data-faq="1"] summary').click();
     assert.equal(await page.locator('[data-faq="1"]').evaluate(el => el.open), true);
     if (width <= 760) {
@@ -40,7 +43,7 @@ try {
       assert.equal(await page.locator('#mobile-nav').isVisible(), false);
       assert.equal(new URL(page.url()).hash, '#program');
     }
-    await page.locator('.hero-cta').click();
+    await page.locator('#mobile-nav a[href="#consultation"]').evaluate(el=>el.click());
     assert.equal(new URL(page.url()).hash, '#consultation');
     const consultation = await page.locator('#consultation').boundingBox();
     assert.ok(consultation.y >= 0 && consultation.y < 200, `consultation visible below header: ${consultation.y}`);

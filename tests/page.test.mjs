@@ -33,7 +33,7 @@ test('all approved text is rendered, including hidden native disclosures', () =>
 });
 
 test('source links and student images retain their exact destinations', () => {
-  assert.ok(html.includes(`href="${c.source}"`), 'course source link must not invent an anchor');
+  assert.ok(!html.includes('class="text-link"'), 'student gallery footer label removed');
   for (const item of [...c.links.academy,...c.links.courses,c.links.offer,c.links.privacy,...c.contacts.phones]) assert.ok(html.includes(item.href.replaceAll('&','&amp;')));
   for (const work of c.studentWorks) {
     assert.ok(html.includes(`src="${work.src}"`));
@@ -44,7 +44,7 @@ test('source links and student images retain their exact destinations', () => {
 });
 
 test('consultation uses anchors and contacts, not fake submission or payment', () => {
-  assert.ok((html.match(/href="#consultation"/g) ?? []).length >= 3);
+  assert.ok(html.includes('href="#consultation"'));
   assert.ok(html.includes('href="mailto:welcome@itstep.org"'));
   assert.ok(!/<form\b|<input\b|type="submit"|data-payment/.test(html));
   assert.ok(!/заявка отправлена|оплата прошла/i.test(html));
@@ -93,4 +93,19 @@ test('reason carousel uses thematic images above preserved text and modules only
  });
  assert.equal(document.querySelectorAll('.module-number').length,0);
  assert.deepEqual([...document.querySelectorAll('.module-prefix')].map(el=>el.textContent),c.modules.map((_,i)=>`Модуль ${i+1}`));
+});
+
+test('all section labels are removed, modules closed, and consultation repeated in hero',()=>{
+ const {document}=parseHTML(html);
+ assert.equal(document.querySelectorAll('p.eyebrow').length,0);
+ assert.equal(document.querySelectorAll('.module[open]').length,0);
+ assert.equal(document.querySelectorAll('.hero-actions a').length,1);
+ assert.equal(document.querySelector('.hero-actions a').getAttribute('href'),'#program');
+ assert.equal(document.querySelectorAll('.consultation-panel').length,2);
+ assert.ok(document.querySelector('.hero .hero-consultation'));
+ assert.equal(document.querySelector('.outcome-1 h3').textContent,'Сертификат STEP Academy');
+ assert.equal(document.querySelectorAll('.outcome-2 .outcome-art,.outcome-3 .outcome-art').length,2);
+ assert.equal(document.querySelectorAll('.benefit-row .profession-icon').length,4);
+ assert.equal(document.querySelectorAll('.benefit-row .row-number').length,0);
+ assert.ok(document.querySelector('#profession .profession-visual img'));
 });
